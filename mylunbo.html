@@ -1,0 +1,116 @@
+ <!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>我的轮播实验</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            /*font-family: "Arial", "Microsoft Yahei";*/
+        }
+        .wrap{
+            width: 300px;
+            height: 400px;
+            margin: 60px auto;
+            overflow: hidden;
+            position: relative;
+        }
+        .wrap ul{
+            width: 300px;
+            height: 400px;
+        }
+        .wrap ul li{
+            height: 400px;
+        }
+        .wrap ol{
+            position: absolute;
+            right: 5px;
+            bottom: 10px;
+            font-family:  "楷体";
+        }
+        .wrap ol li{
+            height: 20px;
+            width: 20px;
+            border-radius: 10px;
+            -webkit-border-radius: 10px;
+            -moz-border-radius: 10px;
+            /*border: solid 1px black;*/
+            background: rgba(255,255,255,0.3);
+            box-shadow: 0 5px 10px 0 rgba(0,0,0,0.6);
+            margin-left: 5px;
+            float: left;
+            color: black;
+            text-align: center;
+            line-height: 120%;
+            cursor: pointer;
+        }
+        ul li img{
+            width: 300px;
+            height: 397px;
+        }
+        .wrap ol .on{
+            background:#E97305;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+<div id="wrap" class="wrap">
+    <ul id="imglist">
+        <li><img src="img/01.jpg"></li>
+        <li><img src="img/02.jpg"></li>
+        <li><img src="img/03.jpg"></li>
+        <li><img src="img/04.jpg"></li>
+    </ul>
+    <ol id="numlist">
+        <li class="on">1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+    </ol>
+</div>
+<script>
+    window.onload=function(){
+        var wrap=document.getElementById('wrap');
+        var imglist=document.getElementById('imglist').getElementsByTagName('li');
+        var numlist=document.getElementById('numlist').getElementsByTagName('li');
+        var index=0;
+        var timer=null;
+        //自动轮播
+        timer=setInterval(AutoPlay,2000);
+        //鼠标在容器上时，停止轮播
+        wrap.onmouseover=function(){
+            clearInterval(timer);
+        };
+        //鼠标离开时，继续轮播
+        wrap.onmouseout=function(){
+            timer=setInterval(AutoPlay,2000)
+        };
+        for(var i=0;i<numlist.length;i++){
+            numlist[i].onmouseover=function(){
+                index=this.innerText-1;
+                changePic(index);
+            };
+
+
+        }
+        function AutoPlay(){
+            if(++index >= imglist.length){
+                index=0;
+            }
+            changePic(index);
+        }
+        function changePic(curindex){
+            for(var i=0;i<numlist.length;i++){
+                imglist[i].style.display="none";
+                numlist[i].className="";
+            }
+            imglist[curindex].style.display="block";
+            numlist[curindex].className="on";
+        }
+    }
+</script>
+</body>
+</html>
